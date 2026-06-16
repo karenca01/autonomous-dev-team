@@ -1,25 +1,20 @@
-# from config.gemini_client import GeminiClient
+from agents.product_manager import ProductManager
+from agents.architect import Architect
 
 
-# client = GeminiClient()
-
-# response = client.generate_response(
-#     "Explícame en una frase qué es un sistema multiagente."
-# )
-
-# print(response)
-
-from agents.agent import Agent
+idea = "I want an application to track personal habits."
 
 
-product_manager = Agent(
-    name="Product Manager",
-    role="Senior Product Manager",
-    goal="Convert software ideas into clear requirements"
-)
+product_manager = ProductManager()
+architect = Architect()
 
-response = product_manager.think(
-    "I want an application to track personal habits."
-)
 
-print(response)
+pm_response = product_manager.think(idea)
+architect_response = architect.think(idea)
+
+
+print("=== PRODUCT MANAGER ===")
+print(pm_response)
+
+print("\n=== ARCHITECT ===")
+print(architect_response)
