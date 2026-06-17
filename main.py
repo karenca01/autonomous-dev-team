@@ -1,9 +1,19 @@
 from orchestrator.dev_team import DevTeam
 
+print("Describe your software idea.")
+print("Write END on a new line when you finish.\n")
 
-idea = """
-I want an application to track personal habits.
-"""
+lines = []
+
+while True:
+    line = input()
+
+    if line.strip().upper() == "END":
+        break
+
+    lines.append(line)
+
+idea = "\n".join(lines)
 
 
 team = DevTeam()
