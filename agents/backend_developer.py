@@ -1,16 +1,7 @@
 from agents.agent import Agent
+from config.agent_configs import BACKEND_DEVELOPER
 
 
 class BackendDeveloper(Agent):
     def __init__(self):
-        super().__init__(
-            name="Backend Developer",
-            role="Senior Backend Developer",
-            goal=(
-                "Transform the software architecture into a practical backend plan. "
-                "Do not redesign the entire system. "
-                "Focus only on backend responsibilities: API endpoints, data models, "
-                "business logic, authentication if needed, validations, and error handling. "
-                "Base your response on the architecture provided."
-            )
-        )
+        super().__init__(**BACKEND_DEVELOPER)
