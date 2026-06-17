@@ -1,4 +1,5 @@
 from orchestrator.dev_team import DevTeam
+from orchestrator.exporter import MarkdownExporter
 
 print("Describe your software idea.")
 print("Write END on a new line when you finish.\n")
@@ -18,6 +19,11 @@ idea = "\n".join(lines)
 
 team = DevTeam()
 results = team.run(idea)
+
+exporter = MarkdownExporter()
+output_file = exporter.export(results)
+
+print(f"\nReport saved to: {output_file}")
 
 
 for agent_name, response in results.items():
