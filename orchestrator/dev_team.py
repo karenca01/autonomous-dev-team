@@ -4,6 +4,7 @@ from agents.backend_developer import BackendDeveloper
 from agents.frontend_developer import FrontendDeveloper
 from agents.qa_tester import QATester
 from agents.tech_lead import TechLead
+import time
 
 
 class DevTeam:
@@ -15,61 +16,33 @@ class DevTeam:
         self.qa_tester = QATester()
         self.tech_lead = TechLead()
 
-#     def run(self, idea):
-#         pm_response = self.product_manager.think(idea)
-#         architect_response = self.architect.think(pm_response)
-#         backend_response = self.backend_developer.think(architect_response)
-#         frontend_response = self.frontend_developer.think(backend_response)
-#         qa_response = self.qa_tester.think(frontend_response)
-
-#         tech_lead_input = f"""
-# === REQUIREMENTS ===
-# {pm_response}
-
-# === ARCHITECTURE ===
-# {architect_response}
-
-# === BACKEND ===
-# {backend_response}
-
-# === FRONTEND ===
-# {frontend_response}
-
-# === QA FINDINGS ===
-# {qa_response}
-# """
-
-#         tech_lead_response = self.tech_lead.think(tech_lead_input)
-
-#         return {
-#             "product_manager": pm_response,
-#             "architect": architect_response,
-#             "backend_developer": backend_response,
-#             "frontend_developer": frontend_response,
-#             "qa_tester": qa_response,
-#             "tech_lead": tech_lead_response,
-#         }
-
     def run(self, idea):
+        total_start = time.perf_counter()
+
         print("\nStarting Product Manager")
+        start = time.perf_counter()
         pm_response = self.product_manager.think(idea)
-        print("Product Manager section completed")
+        print(f"Product Manager section completed ({time.perf_counter() - start:.2f}s)")
 
         print("\nStarting Architect")
+        start = time.perf_counter()
         architect_response = self.architect.think(pm_response)
-        print("Architect section completed")
+        print(f"Architect section completed ({time.perf_counter() - start:.2f}s)")
 
         print("\nStarting Backend Developer")
+        start = time.perf_counter()
         backend_response = self.backend_developer.think(architect_response)
-        print("Backend Developer section completed")
+        print(f"Backend Developer section completed ({time.perf_counter() - start:.2f}s)")
 
         print("\nStarting Frontend Developer")
+        start = time.perf_counter()
         frontend_response = self.frontend_developer.think(backend_response)
-        print("Frontend Developer section completed")
+        print(f"Frontend Developer section completed ({time.perf_counter() - start:.2f}s)")
 
         print("\nStarting QA Tester")
+        start = time.perf_counter()
         qa_response = self.qa_tester.think(frontend_response)
-        print("QA Tester section completed")
+        print(f"QA Tester section completed ({time.perf_counter() - start:.2f}s)")
 
         tech_lead_input = f"""
 === REQUIREMENTS ===
@@ -89,8 +62,11 @@ class DevTeam:
 """
 
         print("\nStarting Tech Lead")
+        start = time.perf_counter()
         tech_lead_response = self.tech_lead.think(tech_lead_input)
-        print("Tech Lead section completed")
+        print(f"Tech Lead section completed ({time.perf_counter() - start:.2f}s)")
+
+        print(f"\nTotal workflow time: {time.perf_counter() - total_start:.2f}s")
 
         return {
             "product_manager": pm_response,
