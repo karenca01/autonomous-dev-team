@@ -1,6 +1,7 @@
 from agents.product_manager import ProductManager
 from agents.architect import Architect
 from agents.backend_developer import BackendDeveloper
+from agents.frontend_developer import FrontendDeveloper
 
 
 idea = """
@@ -11,11 +12,13 @@ I want an application to track personal habits.
 product_manager = ProductManager()
 architect = Architect()
 backend_developer = BackendDeveloper()
+frontend_developer = FrontendDeveloper()
 
 
 pm_response = product_manager.think(idea)
 architect_response = architect.think(pm_response)
 backend_response = backend_developer.think(architect_response)
+frontend_response = frontend_developer.think(backend_response)
 
 
 print("=== PRODUCT MANAGER ===")
@@ -26,3 +29,6 @@ print(architect_response)
 
 print("\n\n=== BACKEND DEVELOPER ===")
 print(backend_response)
+
+print("\n\n=== FRONTEND DEVELOPER ===")
+print(frontend_response)
