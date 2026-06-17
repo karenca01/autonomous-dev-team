@@ -13,7 +13,6 @@ class Agent:
         self.role = role
         self.goal = goal
         self.model = model
-
         self.client = GeminiClient(model)
 
     def think(self, message):
