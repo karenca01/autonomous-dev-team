@@ -1,5 +1,6 @@
 from strands import Agent
 from strands.models.gemini import GeminiModel
+from strands_tools import file_read
 
 from config.agent_configs import PRODUCT_MANAGER, ARCHITECT
 
@@ -11,9 +12,14 @@ class StrandsDevTeam:
         self.model = GeminiModel(model_id="gemini-2.5-flash")
 
         self.product_manager = self._build_agent(PRODUCT_MANAGER)
-        self.architect = self._build_agent(ARCHITECT)
+        
+        # self.architect = self._build_agent(ARCHITECT)
+        self.architect = self._build_agent(
+            ARCHITECT,
+            tools=[file_read]
+        )
 
-    def _build_agent(self, config):
+    def _build_agent(self, config, tools=None):
         system_prompt = f"""
 You are an AI agent in a software development team.
 
@@ -35,7 +41,8 @@ Important rules:
 
         return Agent(
             model=self.model,
-            system_prompt=system_prompt
+            system_prompt=system_prompt,
+            tools=tools or []
         )
 
     def run(self, idea):
@@ -45,10 +52,14 @@ Important rules:
         print("Product Manager completed and SAVED to memory")
 
         print("\nArchitect READING Product Manager output from memory...")
-        pm_memory = read_agent_output("Product Manager")
 
         print("\nRunning Architect...")
-        architect_response = str(self.architect(pm_memory))
+        architect_prompt = """
+        Read the file memory/product_manager.md using your available file reading tool.
+        Then create the technical architecture based on that content.
+        """
+
+        architect_response = str(self.architect(architect_prompt))
         save_agent_output("Architect", architect_response)
         print("Architect completed and SAVED to memory")
 
