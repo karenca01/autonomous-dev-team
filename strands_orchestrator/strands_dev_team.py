@@ -3,6 +3,8 @@ from strands.models.gemini import GeminiModel
 
 from config.agent_configs import PRODUCT_MANAGER, ARCHITECT
 
+from tools.shared_memory_tools import save_agent_output, read_agent_output
+
 
 class StrandsDevTeam:
     def __init__(self):
@@ -39,11 +41,16 @@ Important rules:
     def run(self, idea):
         print("\nRunning Product Manager...")
         pm_response = str(self.product_manager(idea))
-        print("Product Manager completed")
+        save_agent_output("Product Manager", pm_response)
+        print("Product Manager completed and SAVED to memory")
+
+        print("\nArchitect READING Product Manager output from memory...")
+        pm_memory = read_agent_output("Product Manager")
 
         print("\nRunning Architect...")
-        architect_response = str(self.architect(pm_response))
-        print("Architect completed")
+        architect_response = str(self.architect(pm_memory))
+        save_agent_output("Architect", architect_response)
+        print("Architect completed and SAVED to memory")
 
         return {
             "product_manager": pm_response,
