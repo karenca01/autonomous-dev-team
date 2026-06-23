@@ -4,9 +4,6 @@ from strands_tools import file_read, file_write
 
 from config.agent_configs import PRODUCT_MANAGER, ARCHITECT
 
-from tools.shared_memory_tools import save_agent_output
-
-
 class StrandsDevTeam:
     def __init__(self):
         self.model = GeminiModel(model_id="gemini-2.5-flash")
@@ -18,7 +15,7 @@ class StrandsDevTeam:
         
         self.architect = self._build_agent(
             ARCHITECT,
-            tools=[file_read]
+            tools=[file_read, file_write]
         )
 
     def _build_agent(self, config, tools=None):
@@ -63,11 +60,15 @@ Important rules:
 
         architect_prompt = """
         Read the file memory/product_manager.md using your available file reading tool.
-        Then create the technical architecture based on that content.
+        Then create the technical architecture document based on that content.
+
+        After generating the architecture document, use your file writing tool to save it at:
+        memory/architect.md
+
+        The file content must be only the full technical architecture document.
         """
 
         architect_response = str(self.architect(architect_prompt))
-        save_agent_output("Architect", architect_response)
 
         return {
             "product_manager": pm_response,
